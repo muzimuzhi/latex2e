@@ -21,7 +21,7 @@
 
 \endinput
 \end{filecontents}
-\documentclass[a4paper,test=wtf,bertha]{github-1183}
+\documentclass[a4paper,test=wtf,bertha,aaapaper]{github-1183}
 
 \START
 \begin{document}
