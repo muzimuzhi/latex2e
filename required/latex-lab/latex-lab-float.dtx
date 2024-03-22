@@ -45,68 +45,68 @@
 % \providecommand\hook[1]{\texttt{#1}}
 % \begin{documentation}
 % \begin{abstract}
-% The following code implements a first draft for the tagging of float 
+% The following code implements a first draft for the tagging of float
 % environments
 % \end{abstract}
-% 
-% 
+%
+%
 % \section{Introduction}
-% 
-% The code here handle the tagging of float environments. 
-% 
-% Figures (and tables) are in \LaTeX{} typically typeset in float environments. 
-% These are boxes which can \emph{float} away to special float areas on the pages, 
+%
+% The code here handle the tagging of float environments.
+%
+% Figures (and tables) are in \LaTeX{} typically typeset in float environments.
+% These are boxes which can \emph{float} away to special float areas on the pages,
 % e.g., to the top or the bottom of a page or to special float pages.
-% If the rules allow it they can also be placed in the main text stream (\enquote{here}).  
-% Floats can also be collected at the end of the document. 
-% In either case  the order within each type of floats 
+% If the rules allow it they can also be placed in the main text stream (\enquote{here}).
+% Floats can also be collected at the end of the document.
+% In either case  the order within each type of floats
 % (e.g., figures, tables, algorithms, etc.) is preserved.
-% 
+%
 % A special type, called a H-float, (provided by the float package)
 % is always placed in the main text stream and does not
 % necessarly preserve the order with normal floats of the same type: It is basically
 % a minipage with a caption.
-% 
-% Floats typically contain a figure (or a table, etc.) and a caption, 
+%
+% Floats typically contain a figure (or a table, etc.) and a caption,
 % but more complex constructions with subfigures,
 % copyright statements, sources or additional description are possible too.
-% 
-% In the \LaTeX{} source a float is normally more or less at the place of 
-% the first call-out, but when preparing a document for print the code 
+%
+% In the \LaTeX{} source a float is normally more or less at the place of
+% the first call-out, but when preparing a document for print the code
 % is sometimes moved to place floats in a more visually pleasing way.
-% 
+%
 % \section{Tagging}
-% 
+%
 % Floats (with the exception of H-floats) do not belong into the text stream, they
 % are \enquote{consultation objects}: Readers must be able to choose if and when they read the float.
 % Floats have captions, the PDF rules require that a \texttt{Caption} is the first or last
-% structure in its parent structure. 
+% structure in its parent structure.
 % This poses some challenges on a good tagging.
-% 
-% In PDF~2.0 there is the suitable \texttt{Aside} tag which hopefully will 
+%
+% In PDF~2.0 there is the suitable \texttt{Aside} tag which hopefully will
 % be handled correctly regarding the reading order once processor actually support
-% PDF~2.0. But in PDF~1.7 we rolemap it to \texttt{Note} and this doesn't lead to 
+% PDF~2.0. But in PDF~1.7 we rolemap it to \texttt{Note} and this doesn't lead to
 % a good reading order. The code therefore collects the float structures and moves
-% them to a \texttt{Sect} at the end of the document or the chapter 
+% them to a \texttt{Sect} at the end of the document or the chapter
 % (H-floats once they are handled will not be moved).
-% 
+%
 % To fulfill the requirement that a \texttt{Caption} should be at the begin or end, we always
 % move it to the begin of the structure. If a float has two captions the author
 % has to insert a command which splits the float in two.
-% 
+%
 % Subfigures and subcaptions are currently not handled, but will be implemented
-% as simple \texttt{Part} with their own \texttt{Caption}.    
-% 
+% as simple \texttt{Part} with their own \texttt{Caption}.
+%
 % \section{Links}
 % The code disable the caption patches from hyperref. It will add an anchor at the
 % begin of the float or a split. It changes caption so that a link to a caption label
 % will go to the begin of the float.
-% 
+%
 % \section{Tools}
-% 
+%
 % The code add two keys for the \cs{tagtool} command
-% 
-% 
+%
+%
 % \begin{function}{flush-floats,split-float}
 % \begin{description}
 % \item[flush-floats]  This will flush out the collected floats sofar (currently
@@ -115,32 +115,32 @@
 % level are closed). The key then starts a new container for following floats.
 % If no value is given, the \texttt{Sect} is at the document level. The code automatically
 % flush all open floats at the end of the document.
-% 
+%
 % \item[split-float] This can be used inside a float if there are two captions.
 % It will only work reasonably well if the content of the float parts are in a sensible order
 % and can be separated by this command. More complex setups with tabulars will need more
 % thoughts.
-% \end{description} 
+% \end{description}
 % \end{function}
-% 
+%
 % \section{Kernel commands}
 % \begin{function}{\@current@float@struct}
 % This variable holds the structure number of current float structure.
 % \end{function}
-% 
+%
 % \begin{function}{\@makecaption}
 % \cs{@makecaption} is defined by the classes so we overwrite it for now
 % at begin document.
 % \end{function}
-%                                    
-%  
+%
+%
 %    \begin{macrocode}
 %<@@=tag>
 %<*package>
 %    \end{macrocode}
 % \end{documentation}
 % \begin{implementation}
-% \section{Implementation} 
+% \section{Implementation}
 %    \begin{macrocode}
 \ProvidesExplPackage {latex-lab-testphase-float} {\ltlabfloatdate} {\ltlabfloatversion}
   {Code related to the tagging of floats}
@@ -153,7 +153,7 @@
 %  \g_@@_float_types_seq,
 %  \@current@float@struct
 %   }
-% These variables will hold the structure number for the float container  
+% These variables will hold the structure number for the float container
 % and the list of float types. Currently only figure and table are supported
 % TODO: interface to declare new float types.
 %    \begin{macrocode}
@@ -164,10 +164,10 @@
 \tl_new:N\@current@float@struct
 %    \end{macrocode}
 % \end{variable}
-% 
+%
 % \begin{variable}{\g_@@_float_sect_bool}
 % With this boolean float collection is switched on and off.
-% Currently it is always on and set globally. 
+% Currently it is always on and set globally.
 % TODO: think if an interface is needed.
 % TODO: would a local variable make more sense?
 %    \begin{macrocode}
@@ -175,34 +175,34 @@
 \bool_gset_true:N  \g_@@_float_sect_bool
 %    \end{macrocode}
 % \end{variable}
-% 
-% 
+%
+%
 %\subsection{Moving float structures}
-% 
+%
 % Currently it is for all float types or none.
 % Probably we will need some more options here to select some float types.
-% 
+%
 % \begin{macro}{\@@_float_init_collect:}
 % This initializes a container structure for every float type.
 % It can be used more than once in a document, this allows to have e.g.
 % chapter wise containers.
 %    \begin{macrocode}
 \cs_new_protected:Npn\@@_float_init_collect:
-  { 
+  {
     \bool_if:NT\g_@@_float_sect_bool
       {
         \seq_map_inline:Nn\g_@@_float_types_seq
           {
             \tag_struct_begin:n{tag=##1s,stash}
-            \prop_gput:Nne\g_@@_float_sect_prop {##1-struct}{\int_use:N\c@g__tag_struct_abs_int} 
+            \prop_gput:Nne\g_@@_float_sect_prop {##1-struct}{\int_use:N\c@g__tag_struct_abs_int}
             \tag_struct_end:
-          }  
-      }   
+          }
+      }
   }
 %    \end{macrocode}
 % \end{macro}
-% 
-% 
+%
+%
 % \begin{macro}{\@@_float_stop_sect:}
 % This pushes out the floats. For every type is checks if there is actually
 % a float of this type and then writes out the container structure.
@@ -218,28 +218,28 @@
               \exp_args:Ne
               \tag_struct_use_num:n{\prop_item:Nn\g_@@_float_sect_prop{##1-struct}}
               \prop_gremove:Nn \g_@@_float_sect_prop{##1-used}
-            }  
-        }  
-     }   
-  } 
+            }
+        }
+     }
+  }
 %    \end{macrocode}
 % \end{macro}
 
 % \begin{macro}{flush-floats}
-% This is a key for \cs{tagtool} to flush out the collected floats. 
-% The value allows to set to which level the create Sect contains. 
+% This is a key for \cs{tagtool} to flush out the collected floats.
+% The value allows to set to which level the create Sect contains.
 % So \texttt{section} will close all previous Sect until the section level
 % and create a new section.
 %    \begin{macrocode}
-\keys_define:nn { tag / tool} 
+\keys_define:nn { tag / tool}
  {
-   flush-floats .code:n = 
+   flush-floats .code:n =
      {
        \keys_set:nn {tag / tool} {sec-stop=#1}
        \@@_float_stop_sect:
        \@@_float_init_collect:
      },
-   flush-float .default:n = Document  
+   flush-float .default:n = Document
  }
 %    \end{macrocode}
 % \end{macro}
@@ -254,20 +254,20 @@
 %
 % \subsection{Splitting floats}
 % \begin{macro}{split-float}
-% TODO: check if the target affect spacing!! 
+% TODO: check if the target affect spacing!!
 %    \begin{macrocode}
 \keys_define:nn { tag / tool}
   {
-   split-float .code:n = 
-    { 
+   split-float .code:n =
+    {
       \@@_float_end:
       \@@_float_begin:
       \MakeLinkTarget*{floatstructure.\int_use:N\c@g__tag_struct_abs_int}
-    }  
+    }
  }
 %    \end{macrocode}
 % \end{macro}
- 
+
 % \subsection{Patching}
 % \begin{macro}{\@@_float_stop_par:,\@@_float_start_par:}
 % if a float is in a par, we need commands to stop and restart the P-mc
@@ -276,23 +276,23 @@
   {
     \tag_mc_end:
     \bool_if:NF \g_@@_float_sect_bool
-     { 
+     {
       \tag_struct_end:
-     }  
+     }
   }
 \cs_new_protected:Npn \@@_float_start_par:
   {
     \bool_if:NF \g_@@_float_sect_bool
-     { 
+     {
       \tag_struct_begin:n{tag=text}%
      }
-   \tag_mc_begin:n{tag=P}    
+   \tag_mc_begin:n{tag=P}
   }
- 
+
 %    \end{macrocode}
 % \end{macro}
 % These commands are the main commands to start and end the float tagging.
-% 
+%
 %    \begin{macrocode}
 \cs_new_protected:Npn \@@_float_begin:
  {%
@@ -309,7 +309,7 @@
      \tag_struct_begin:n{tag=float}
    }
      \tl_set:Ne\@current@float@struct{\tag_get:n{struct_num}}%
-     \typeout{Float structure: \@current@float@struct}   
+     \typeout{Float structure: \@current@float@struct}
  }
 
 \cs_new_protected:Npn\@@_float_end:{\tag_struct_end:} %end Aside
@@ -335,7 +335,7 @@
    \ifhmode
      \@bsphack
 %    \end{macrocode}
-% If the float is in hmode we have to interrupt the P 
+% If the float is in hmode we have to interrupt the P
 %    \begin{macrocode}
      \@nameuse{@@_float_stoppar:}% <---end P
      \@floatpenalty -\@Mii
@@ -447,7 +447,7 @@
 %    \end{macrocode}
 %
 % \subsection{Handling captions}
-% 
+%
 % To avoid that hyperref interferes we disable its patches:
 %    \begin{macrocode}
 \def\hyper@nopatch@caption{}
@@ -461,22 +461,22 @@
    \ifx\@captype\@undefined
      \@latex@error{\noexpand\caption\c_space_tl outside~float}\@ehd
      \expandafter\@gobble
-   \else 
+   \else
 %    \end{macrocode}
-% if a caption is used outside a float no 
+% if a caption is used outside a float no
 % target has been set and \cs{@current@float@struct} is empty
 %    \begin{macrocode}
      \tl_if_empty:NTF\@current@float@struct
-      { 
-        \refstepcounter\@captype 
-      }    
+      {
+        \refstepcounter\@captype
+      }
       {
         \@kernel@refstepcounter\@captype
 %    \end{macrocode}
 % we need to reset the target for \cs{addcontentsline}.
 %    \begin{macrocode}
         \xdef\@currentHref{floatstructure.\@current@float@struct}%
-      }  
+      }
      \expandafter\@firstofone
    \fi
    {\@dblarg{\@caption\@captype}}%
@@ -503,18 +503,18 @@
 %    \begin{macrocode}
       \tag_stop:n{caption}
       \sbox\@tempboxa{#1:~#2}%
-      \tag_start:n{caption} 
+      \tag_start:n{caption}
 %    \end{macrocode}
-% we stop paratagging. TODO: check 
+% we stop paratagging. TODO: check
 %    \begin{macrocode}
       \tagtool{para=false}
 %    \end{macrocode}
 % if caption is used outside a float there is perhaps no number, then we use
 % the parent structure and hope ...
 %    \begin{macrocode}
-      \tl_if_empty:NT \@current@float@struct 
-       { \tl_set:Ne \@current@float@struct {\tag_get:n{struct_num}} }     
-      \tag_struct_begin:n{tag=Caption,parent=\@current@float@struct}  
+      \tl_if_empty:NT \@current@float@struct
+       { \tl_set:Ne \@current@float@struct {\tag_get:n{struct_num}} }
+      \tag_struct_begin:n{tag=Caption,parent=\@current@float@struct}
 %    \end{macrocode}
 % move the caption to the begin of the float structure:
 %    \begin{macrocode}
@@ -522,16 +522,16 @@
        {
          \seq_gpop_right:cN {g__tag_struct_kids_\@current@float@struct _seq}\l_@@_tmpa_tl
          \seq_gput_left:cV  {g__tag_struct_kids_\@current@float@struct _seq}\l_@@_tmpa_tl
-       }    
+       }
       \ifdim \wd\@tempboxa >\hsize
         \tag_struct_begin:n{tag=Lbl}
         \tag_mc_begin:n{}
-          #1:~ 
+          #1:~
         \tag_mc_end:
         \tag_struct_end:
-        \tag_mc_begin:n{}  
+        \tag_mc_begin:n{}
           #2\par
-        \tag_mc_end:  
+        \tag_mc_end:
       \else
 %    \end{macrocode}
 % we don't reuse the box as it doesn't contain tagging, but set the text explicitly.
@@ -540,21 +540,21 @@
         \hb@xt@\hsize{\hfil
          \tag_struct_begin:n{tag=Lbl}
           \tag_mc_begin:n{}
-           #1:~ 
+           #1:~
           \tag_mc_end:
          \tag_struct_end:
-         \tag_mc_begin:n{}  
+         \tag_mc_begin:n{}
           #2
          \tag_mc_end:\hfil}%
        \fi
        \tag_struct_end: %caption
       \vskip\belowcaptionskip}
-  }  
+  }
 %    \end{macrocode}
 % \end{macro}
-%   
+%
 %    \begin{macrocode}
-%</package>  
+%</package>
 %    \end{macrocode}
 
 %    \begin{macrocode}
