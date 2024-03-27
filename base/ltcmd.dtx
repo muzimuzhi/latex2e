@@ -34,8 +34,8 @@
 %%% From File: ltcmd.dtx
 %
 %    \begin{macrocode}
-\def\ltcmdversion{v1.2d}
-\def\ltcmddate{2024-03-21}
+\def\ltcmdversion{v1.2e}
+\def\ltcmddate{2024-03-27}
 %    \end{macrocode}
 %
 %<*driver>
@@ -4887,13 +4887,17 @@
     at~each~occurrence~of~the~separator~'#1'~into~#2~parts.~
     Too~many~separators~were~found.
   }
+%    \end{macrocode}
+% \changes{v1.2e}{2024/03/27}
+%         {Mention \texttt{+v} solution in message \texttt{verbatim-nl}}
+%    \begin{macrocode}
 \msg_new:nnnn { cmd } { verbatim-nl }
   { Verbatim-like~#1~ended~by~end~of~line. }
   {
     The~verbatim~argument~of~the~#1~cannot~contain~more~than~one~line,~
     but~the~end~
     of~the~current~line~has~been~reached.~You~may~have~forgotten~the~
-    closing~delimiter.
+    closing~delimiter~or~want~to~declare~that~argument~long~('+v').
     \\ \\
     LaTeX~will~ignore~'#2'~and~you~may~get~some~additional~
     (low-level)~errors.

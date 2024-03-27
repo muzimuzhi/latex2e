@@ -41,7 +41,7 @@ For immediate help type H <return>.
 l. ...\foo+a
 The verbatim argument of the command '\foo' cannot contain more than one line,
 but the end of the current line has been reached. You may have forgotten the
-closing delimiter.
+closing delimiter or want to declare that argument long ('+v').
 LaTeX will ignore '+a' and you may get some additional (low-level) errors.
 I got '\foo--NoValue--{+}
 I got '\foo-b-{}
@@ -57,7 +57,7 @@ For immediate help type H <return>.
 l. ...\foo{
 The verbatim argument of the command '\foo' cannot contain more than one line,
 but the end of the current line has been reached. You may have forgotten the
-closing delimiter.
+closing delimiter or want to declare that argument long ('+v').
 LaTeX will ignore '{' and you may get some additional (low-level) errors.
 I got '\foo--NoValue--{}
 ! LaTeX cmd Error: Verbatim-like command '\foo' illegal in argument.

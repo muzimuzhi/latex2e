@@ -389,7 +389,7 @@ For immediate help type H <return>.
 l. ...\testG+
 The verbatim argument of the command '\testG' cannot contain more than one
 line, but the end of the current line has been reached. You may have forgotten
-the closing delimiter.
+the closing delimiter or want to declare that argument long ('+v').
 LaTeX will ignore '+' and you may get some additional (low-level) errors.
 -NoValue-
 +
@@ -399,7 +399,7 @@ For immediate help type H <return>.
 l. ...\begin{testH}+
 The verbatim argument of the environment 'testH' cannot contain more than one
 line, but the end of the current line has been reached. You may have forgotten
-the closing delimiter.
+the closing delimiter or want to declare that argument long ('+v').
 LaTeX will ignore '+' and you may get some additional (low-level) errors.
 -NoValue-
 +

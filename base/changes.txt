@@ -6,8 +6,12 @@ to completeness or accuracy and it contains some references to files that are
 not part of the distribution.
 ================================================================================
 
+2024-03-27  Yukai Chou  <muzimuzhi@gmail.com>
+	* ltcmd.dtx (subsection(Messages))
+	Mention +v solution in message raised when end-of-line is
+	encountered in grabbing a short v argument.
 
-2024-03-22  Yukai Chou <muzimuzhi@gmail.com>
+2024-03-22  Yukai Chou  <muzimuzhi@gmail.com>
 	* ltfilehook.dtx
 	Apply one-step expansion to raw option list, when a package
 	providing key-value options is loaded the second time. The same
