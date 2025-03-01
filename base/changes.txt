@@ -6,6 +6,11 @@ to completeness or accuracy and it contains some references to files that are
 not part of the distribution.
 ================================================================================
 
+2025-03-01  Yukai Chou  <muzimuzhi@gmail.com>
+
+	* ltcounts.dtx
+	Drop outdated description about 'environment counters'.
+
 2025-02-26  Frank Mittelbach  <Frank.Mittelbach@latex-project.org>
 
 	* lttagging.dtx:

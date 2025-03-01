@@ -33,7 +33,7 @@
 %<*driver>
 % \fi
 \ProvidesFile{ltcounts.dtx}
-             [2025/01/22 v1.2a LaTeX Kernel (Counters)]
+             [2025/03/02 v1.2a LaTeX Kernel (Counters)]
 % \iffalse
 \documentclass{ltxdoc}
 \GetFileInfo{ltcounts.dtx}
@@ -136,15 +136,14 @@
 %<*2ekernel>
 %    \end{macrocode}
 %
-% \subsection{Environment Counter Macros}
+% \subsection{Counter Macros}
 %
-%  An environment  foo  has an associated counter defined by the
-%  following control sequences:
+%  \cs{newcounter}|{foo}| defines following control sequences:
 %
 % \begin{tabular}{lp{.75\textwidth}}
-%  |\c@foo|  &  Contains the counter's numerical value.
-%                It is defined by  |\newcount\foocounter|.\\
-%  |\thefoo| & Macro that expands to the printed value of |\foocounter|.
+%  |\c@foo|  & Contains the counter's numerical value.
+%              It is defined by  |\newcount\c@foo|.\\
+%  |\thefoo| & Macro that expands to the printed value of |\c@foo|.
 %              For example, if sections are numbered within chapters,
 %              and section headings look like
 %
@@ -152,23 +151,25 @@
 %
 %              then |\thesection| might be defined by:\newline
 %                 |\def\thesection|\newline\hspace*{2em}
-%                    |{\@Roman{\c@chapter}-\@arabic{\c@section}}|\\
+%                    |{\@Roman{\c@chapter}-\@arabic{\c@section}}|.\\
+%  |\theHfoo| & Macro that denotes an additional counter representation
+%               used by \pkg{hyperref} and also the tagging code.\\
 %
 %  |\p@foo|  & Macro that expands to a printed `reference prefix' of
-%              counter foo.  Any |\ref| to a value created by counter
-%              foo will produce the expansion of |\p@foo\thefoo|  when
-%              the |\label| command is executed. See file \texttt{ltxref.dtx}
-%              for an extension of this mechanism.\\
-%  |\cl@foo| & List of counters to be reset when foo stepped.
+%              counter |foo|.  Any |\ref| to a value created by counter
+%              |foo| will produce the expansion of |\p@foo\thefoo| when
+%              the |\label| command is executed.  See file
+%              \texttt{ltxref.dtx} for an extension of this mechanism.\\
+%  |\cl@foo| & List of counters to be reset when |foo| stepped.
 %              Has format
 %                  |\@elt{countera}\@elt{counterb}\@elt{counterc}|.
 % \end{tabular}
 %
 % \textbf{NOTE:}\\
 % |\thefoo| and |\p@foo| \emph{must} be defined in such a way that
-% |\edef\bar{\thefoo}| or |\edef\bar{\p@foo}|
+% |\edef\bar{\thefoo}| or |\edef\bar{\p@foo\thefoo}|
 % defines |\bar| so that it will evaluate to the counter value at the
-% time of the |\edef|, even after |\foocounter| and any other counters
+% time of the |\edef|, even after |\c@foo| and any other counters
 % have been changed.  This will happen if you use the standard commands
 % |\@arabic|, |\@Roman|, etc.
 %
@@ -205,7 +206,7 @@
 % \changes{v1.0e}{1994/04/17}
 %     {Use \cs{@nocounterr} instead of \cs{@nocnterr}}
 %    |\setcounter|\marg{foo}\marg{val}  :
-%  Globally sets |\foocounter| equal to \meta{val}.
+%  Globally sets |foo| counter equal to \meta{val}.
 %    \begin{macrocode}
 \def\setcounter#1#2{%
   \@ifundefined{c@#1}%
@@ -220,7 +221,7 @@
 % \changes{v1.0e}{1994/04/17}
 %     {Use \cs{@nocounterr} instead of \cs{@nocnterr}}
 % |\addtocounter|\marg{foo}\marg{val}
-% Globally increments |\foocounter| by \meta{val}.
+% Globally increments |foo| counter by \meta{val}.
 %    \begin{macrocode}
 \def\addtocounter#1#2{%
   \@ifundefined{c@#1}%
